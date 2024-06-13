@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Attraction } from './attraction.entity';
@@ -12,17 +12,21 @@ export class AttractionService {
         private readonly attractionRepository: Repository<Attraction>,
     ) { }
 
+    async create(createAttractionDto: CreateAttractionDto): Promise<Attraction> {
+        const attraction = this.attractionRepository.create(createAttractionDto);
+        return this.attractionRepository.save(attraction);
+    }
+
     async findAll(): Promise<Attraction[]> {
-        return await this.attractionRepository.find();
+        return this.attractionRepository.find();
     }
 
     async findOne(id: number): Promise<Attraction> {
-        return await this.attractionRepository.findOne({ where: { id } });
-    }
-
-    async create(createAttractionDto: CreateAttractionDto): Promise<Attraction> {
-        const attraction = this.attractionRepository.create(createAttractionDto);
-        return await this.attractionRepository.save(attraction);
+        const attraction = await this.attractionRepository.findOne({ where: { id } });
+        if (!attraction) {
+            throw new NotFoundException(`Attraction with ID ${id} not found`);
+        }
+        return attraction;
     }
 
     async update(id: number, updateAttractionDto: UpdateAttractionDto): Promise<Attraction> {
@@ -30,7 +34,10 @@ export class AttractionService {
         return this.findOne(id);
     }
 
-    async delete(id: number): Promise<void> {
-        await this.attractionRepository.delete(id);
+    async remove(id: number): Promise<void> {
+        const result = await this.attractionRepository.delete(id);
+        if (result.affected === 0) {
+            throw new NotFoundException(`Attraction with ID ${id} not found`);
+        }
     }
 }

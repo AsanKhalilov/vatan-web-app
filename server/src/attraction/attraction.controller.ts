@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
 import { AttractionService } from './attraction.service';
 import { CreateAttractionDto } from './dto/create-attraction.dto';
 import { UpdateAttractionDto } from './dto/update-attraction.dto';
-
 
 @Controller('attractions')
 export class AttractionController {
@@ -19,7 +18,17 @@ export class AttractionController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.attractionService.findOne(+id);
+    findOne(@Param('id') id: number) {
+        return this.attractionService.findOne(id);
+    }
+
+    @Patch(':id')
+    update(@Param('id') id: number, @Body() updateAttractionDto: UpdateAttractionDto) {
+        return this.attractionService.update(id, updateAttractionDto);
+    }
+
+    @Delete(':id')
+    remove(@Param('id') id: number) {
+        return this.attractionService.remove(id);
     }
 }
