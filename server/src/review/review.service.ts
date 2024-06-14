@@ -13,7 +13,7 @@ export class ReviewService {
     ) { }
 
     async findAll(): Promise<Review[]> {
-        return await this.reviewRepository.find();
+        return this.reviewRepository.find();
     }
 
     async findOne(id: number): Promise<Review> {

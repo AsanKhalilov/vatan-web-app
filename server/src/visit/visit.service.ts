@@ -13,7 +13,7 @@ export class VisitService {
     ) { }
 
     async findAll(): Promise<Visit[]> {
-        return await this.visitRepository.find();
+        return this.visitRepository.find();
     }
 
     async findOne(id: number): Promise<Visit> {

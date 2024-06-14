@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
 import { VisitService } from './visit.service';
 import { CreateVisitDto } from './dto/create-visit.dto';
 import { UpdateVisitDto } from './dto/update-visit.dto';
@@ -7,28 +7,28 @@ import { UpdateVisitDto } from './dto/update-visit.dto';
 export class VisitController {
     constructor(private readonly visitService: VisitService) { }
 
+    @Post()
+    create(@Body() createVisitDto: CreateVisitDto) {
+        return this.visitService.create(createVisitDto);
+    }
+
     @Get()
-    async findAll() {
-        return await this.visitService.findAll();
+    findAll() {
+        return this.visitService.findAll();
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: number) {
-        return await this.visitService.findOne(id);
+    findOne(@Param('id') id: number) {
+        return this.visitService.findOne(id);
     }
 
-    @Post()
-    async create(@Body() createVisitDto: CreateVisitDto) {
-        return await this.visitService.create(createVisitDto);
-    }
-
-    @Put(':id')
-    async update(@Param('id') id: number, @Body() updateVisitDto: UpdateVisitDto) {
-        return await this.visitService.update(id, updateVisitDto);
+    @Patch(':id')
+    update(@Param('id') id: number, @Body() updateVisitDto: UpdateVisitDto) {
+        return this.visitService.update(id, updateVisitDto);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: number) {
-        return await this.visitService.delete(id);
+    remove(@Param('id') id: number) {
+        return this.visitService.delete(id);
     }
 }
