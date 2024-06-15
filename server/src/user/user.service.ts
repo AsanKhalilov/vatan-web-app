@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
+import { AuthCredentialsDto } from 'src/auth/dto/auth-credentials.dto';
 
 @Injectable()
 export class UserService {
@@ -24,9 +26,37 @@ export class UserService {
         return user;
     }
 
+    async findByEmail(email: string): Promise<User> {
+        return this.userRepository.findOne({ where: { email } });
+    }
+
+    // async create(createUserDto: CreateUserDto): Promise<User> {
+    //     const user = this.userRepository.create(createUserDto);
+    //     return this.userRepository.save(user);
+    // }
+    // В сервисе пользователя
     async create(createUserDto: CreateUserDto): Promise<User> {
-        const user = this.userRepository.create(createUserDto);
+        const { password } = createUserDto;
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const user = this.userRepository.create({
+            ...createUserDto,
+            password: hashedPassword,
+        });
+
         return this.userRepository.save(user);
+    }
+    // Метод для проверки пароля при аутентификации
+    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string> {
+        const { email, password } = authCredentialsDto;
+        const user = await this.findByEmail(email);
+
+        if (user && (await bcrypt.compare(password, user.password))) {
+            return user.email;
+        } else {
+            return null;
+        }
     }
 
     async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
