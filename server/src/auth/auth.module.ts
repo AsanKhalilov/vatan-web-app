@@ -11,7 +11,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         UserModule,
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
-            secret: 'topSecret51', // Перенесите секрет в файл конфигурации
+            secret: 'topSecret51', // Перенести секрет в файл конфигурации
             signOptions: {
                 expiresIn: 3600,
             },
@@ -19,6 +19,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     ],
     controllers: [AuthController],
     providers: [AuthService, JwtStrategy],
-    exports: [AuthService, PassportModule],
+    exports: [AuthService, PassportModule, JwtModule], // Экспортируем JwtModule
 })
 export class AuthModule { }
