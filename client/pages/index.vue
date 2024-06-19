@@ -1,87 +1,143 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
+  <div>
+    <header>
+      <div class="logo">Vatan</div>
+      <nav>
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/visited">Visited</NuxtLink>
+        <NuxtLink to="/wishlist">Wishlist</NuxtLink>
+        <NuxtLink to="/profile">Profile</NuxtLink>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero-image">
+          <img src="/path/to/your/image.jpg" alt="Crimea Attraction" />
+        </div>
+        <div class="hero-content">
+          <h1>Discover the Beauty and History of Crimea</h1>
           <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
+            Your guide to the most amazing attractions for true adventure
+            enthusiasts.
           </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
+          <NuxtLink to="/attractions" class="btn">Explore Attractions</NuxtLink>
+        </div>
+      </section>
+      <section class="popular-attractions">
+        <h2>Popular Attractions</h2>
+        <div class="attraction-cards">
+          <div
+            class="card"
+            v-for="attraction in popularAttractions"
+            :key="attraction.id"
+          >
+            <img :src="attraction.image" :alt="attraction.name" />
+            <h3>{{ attraction.name }}</h3>
+            <NuxtLink :to="'/attractions/' + attraction.id" class="btn"
+              >Visit</NuxtLink
             >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
           </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+        </div>
+      </section>
+      <section class="about-crimea">
+        <h2>Crimea - A World in Miniature</h2>
+        <p>Brief information about Crimea.</p>
+        <div class="carousel">
+          <!-- Add carousel component here -->
+        </div>
+        <NuxtLink to="/attractions" class="btn">Explore Attractions</NuxtLink>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Vatan. All rights reserved.</p>
+    </footer>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage',
+  name: 'HomePage',
+  data() {
+    return {
+      popularAttractions: [
+        // Example data, replace with actual data
+        { id: 1, name: 'Attraction 1', image: '/path/to/image1.jpg' },
+        { id: 2, name: 'Attraction 2', image: '/path/to/image2.jpg' },
+        { id: 3, name: 'Attraction 3', image: '/path/to/image3.jpg' },
+      ],
+    }
+  },
 }
 </script>
+
+<style scoped>
+/* Add your styles here */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.logo {
+  font-size: 1.5em;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.hero {
+  display: flex;
+}
+
+.hero-image {
+  flex: 1;
+}
+
+.hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-content h1 {
+  font-size: 2.5em;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.popular-attractions,
+.about-crimea {
+  padding: 20px;
+}
+
+.attraction-cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+
+footer {
+  padding: 10px;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+</style>
