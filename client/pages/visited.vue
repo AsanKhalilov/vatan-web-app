@@ -36,13 +36,12 @@ export default {
   name: 'VisitedPage',
   data() {
     return {
-      visitedAttractions: [
-        // Example data, replace with actual data
-        { id: 1, name: 'Attraction 1', image: '/path/to/image1.jpg' },
-        { id: 2, name: 'Attraction 2', image: '/path/to/image2.jpg' },
-        { id: 3, name: 'Attraction 3', image: '/path/to/image3.jpg' },
-      ],
+      visitedAttractions: [],
     }
+  },
+  async fetch() {
+    const { data } = await this.$axios.get('/visits?status=visited')
+    this.visitedAttractions = data
   },
 }
 </script>

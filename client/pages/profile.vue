@@ -12,11 +12,11 @@
     <main>
       <div class="profile-info">
         <div class="profile-avatar">
-          <img src="/path/to/avatar.jpg" alt="User Avatar" />
+          <img :src="user.avatar" alt="User Avatar" />
         </div>
         <div class="profile-details">
-          <p>Name: John Doe</p>
-          <p>Email: john.doe@example.com</p>
+          <p>Name: {{ user.name }}</p>
+          <p>Email: {{ user.email }}</p>
           <NuxtLink to="/wishlist" class="btn">Wishlist</NuxtLink>
           <NuxtLink to="/visited" class="btn">Visited</NuxtLink>
         </div>
@@ -31,6 +31,15 @@
 <script>
 export default {
   name: 'ProfilePage',
+  data() {
+    return {
+      user: {},
+    }
+  },
+  async fetch() {
+    const { data } = await this.$axios.get('/profile')
+    this.user = data
+  },
 }
 </script>
 

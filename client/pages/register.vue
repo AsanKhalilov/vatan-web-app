@@ -37,8 +37,21 @@ export default {
     }
   },
   methods: {
-    register() {
-      // Logic to register
+    async register() {
+      if (this.password !== this.confirmPassword) {
+        alert('Passwords do not match')
+        return
+      }
+      try {
+        await this.$axios.post('/auth/register', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        })
+        this.$router.push('/login')
+      } catch (error) {
+        console.error(error)
+      }
     },
   },
 }

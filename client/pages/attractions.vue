@@ -41,12 +41,7 @@ export default {
   data() {
     return {
       searchQuery: '',
-      attractions: [
-        // Example data, replace with actual data
-        { id: 1, name: 'Attraction 1', image: '/path/to/image1.jpg' },
-        { id: 2, name: 'Attraction 2', image: '/path/to/image2.jpg' },
-        { id: 3, name: 'Attraction 3', image: '/path/to/image3.jpg' },
-      ],
+      attractions: [],
     }
   },
   computed: {
@@ -55,6 +50,10 @@ export default {
         attraction.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       )
     },
+  },
+  async fetch() {
+    const { data } = await this.$axios.get('/attractions')
+    this.attractions = data
   },
 }
 </script>

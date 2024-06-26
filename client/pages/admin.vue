@@ -61,11 +61,24 @@ export default {
     addSectionImage(index) {
       // Logic to add image to section
     },
-    submitAttraction() {
-      // Logic to submit new attraction
+    async submitAttraction() {
+      try {
+        const { data } = await this.$axios.post('/attractions', {
+          title: this.title,
+          subtitle: this.subtitle,
+          location: this.location,
+          description: this.description,
+          sections: this.sections,
+        })
+        alert('Attraction added successfully!')
+      } catch (error) {
+        console.error(error)
+      }
     },
     logout() {
-      // Logic to logout
+      localStorage.removeItem('token')
+      this.$axios.setToken(false)
+      this.$router.push('/login')
     },
   },
 }

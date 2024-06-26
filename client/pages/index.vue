@@ -12,7 +12,7 @@
     <main>
       <section class="hero">
         <div class="hero-image">
-          <img src="/path/to/your/image.jpg" alt="Crimea Attraction" />
+          <img :src="heroImage" alt="Crimea Attraction" />
         </div>
         <div class="hero-content">
           <h1>Discover the Beauty and History of Crimea</h1>
@@ -41,7 +41,7 @@
       </section>
       <section class="about-crimea">
         <h2>Crimea - A World in Miniature</h2>
-        <p>Brief information about Crimea.</p>
+        <p>{{ aboutCrimea }}</p>
         <div class="carousel">
           <!-- Add carousel component here -->
         </div>
@@ -59,13 +59,14 @@ export default {
   name: 'HomePage',
   data() {
     return {
-      popularAttractions: [
-        // Example data, replace with actual data
-        { id: 1, name: 'Attraction 1', image: '/path/to/image1.jpg' },
-        { id: 2, name: 'Attraction 2', image: '/path/to/image2.jpg' },
-        { id: 3, name: 'Attraction 3', image: '/path/to/image3.jpg' },
-      ],
+      heroImage: '/path/to/your/image.jpg',
+      popularAttractions: [],
+      aboutCrimea: 'Brief information about Crimea.',
     }
+  },
+  async fetch() {
+    const { data } = await this.$http.get('/attractions/popular')
+    this.popularAttractions = data
   },
 }
 </script>

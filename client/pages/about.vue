@@ -11,7 +11,7 @@
     </header>
     <main>
       <h1>About Us</h1>
-      <p>Information about the project and the team.</p>
+      <p>{{ aboutText }}</p>
     </main>
     <footer>
       <p>&copy; 2024 Vatan. All rights reserved.</p>
@@ -22,6 +22,11 @@
 <script>
 export default {
   name: 'AboutPage',
+  data() {
+    return {
+      aboutText: 'Information about the project and the team.',
+    }
+  },
 }
 </script>
 

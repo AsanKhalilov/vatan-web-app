@@ -29,8 +29,18 @@ export default {
     }
   },
   methods: {
-    login() {
-      // Logic to login
+    async login() {
+      try {
+        const { data } = await this.$axios.post('/auth/login', {
+          email: this.email,
+          password: this.password,
+        })
+        localStorage.setItem('token', data.accessToken)
+        this.$axios.setToken(data.accessToken, 'Bearer')
+        this.$router.push('/profile')
+      } catch (error) {
+        console.error(error)
+      }
     },
   },
 }
